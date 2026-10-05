@@ -78,21 +78,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Studio Bartô — Barbearia, Tatuagem & Laser em Perdizes" },
+      {
+        name: "description",
+        content:
+          "Studio Bartô: barbearia, estúdio de tatuagem, remoção de tatuagem a laser e Peeling Hollywood em Perdizes, São Paulo.",
+      },
+      { name: "theme-color", content: "#5f725a" },
+      { name: "author", content: "Studio Bartô" },
+      { property: "og:title", content: "Studio Bartô — Barber & Tattoo Studio" },
+      {
+        property: "og:description",
+        content: "Barbearia, tatuagem, remoção a laser e Peeling Hollywood em Perdizes, SP.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "preload", href: "/images/fachada.webp", as: "image" },
     ],
   }),
   shellComponent: RootShell,
@@ -103,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
