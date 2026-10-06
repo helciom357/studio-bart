@@ -400,7 +400,7 @@ export function QuoteForm() {
                       name="tat_estilo"
                       value={a["tat_estilo"]}
                       onChange={set("tat_estilo")}
-                      options={[...TATTOO_STYLES.map((s) => s.name), "Não sei ainda"]}
+                      options={[...TATTOO_STYLES.map((s) => s.name), "Neo Traditional", "Não sei ainda"]}
                     />
                   </Q>
                   <Q n={4} title="Conte sua ideia" hint="Opcional — referências ajudam muito.">

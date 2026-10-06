@@ -18,8 +18,8 @@ export const TATTOO_ARTIST: Professional = {
   facts: ["+20 anos de profissão", "+520 clientes", "3 países"],
   photos: ["/images/team/vinny-1.webp", "/images/team/vinny-2.webp", "/images/team/vinny-3.webp"],
   bio: [
-    "Vinny não é o tatuador que aprendeu vendo tutorial. São mais de 20 anos de prática real — dentro de estúdios na Suíça e em Los Angeles, dois dos mercados mais exigentes do mundo para tatuagem técnica.",
-    "Essa bagagem não é detalhe de currículo. É o que faz a diferença quando você está sentado na cadeira com um projeto grande — e precisa de alguém que já viu, já executou, já errou e já corrigiu antes de você chegar.",
+    "Vinny Darian é o artista à frente do Estúdio Bartô Tattoo. Com anos de experiência no Brasil e no exterior — incluindo passagens por estúdios da Suíça e Los Angeles — ele desenvolveu um estilo técnico, preciso e altamente detalhado, com foco em Black & Gray.",
+    "Especialista em fechamentos e projetos grandes em sessão única (8 a 10 horas), Vinny acumula premiações em convenções de tatuagem que reforçam seu domínio técnico e a qualidade do seu trabalho. Além do Black & Gray, também atua em estilos como Blackwork, Fine Line e Neo Traditional, sempre criando projetos personalizados para cada cliente.",
   ],
   highlights: [
     {

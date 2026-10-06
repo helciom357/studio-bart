@@ -130,7 +130,7 @@ export function Hero({ ready }: { ready: boolean }) {
               <button onClick={() => scrollToId("agendar")} className="btn btn-cobre">
                 Agendar horário
               </button>
-              <button onClick={() => scrollToId("tatuagem")} className="btn btn-ghost">
+              <button onClick={() => scrollToId("barbearia")} className="btn btn-ghost">
                 Entrar no estúdio
               </button>
             </div>

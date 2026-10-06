@@ -1,72 +1,60 @@
 import { useState } from "react";
-import { TableScene, type TableItem, type TableTheme } from "../three/TableScene";
-import { CarbonJar, Goggles, LaserPen, LaserUnit, SerumBottle } from "../three/models";
+import { MesaFixa, type MesaObject } from "../MesaFixa";
 import { ICONS, Marquee } from "../Marquee";
 import { LASER_CARE, LASER_REMOVAL, PEELING } from "../content";
 import { SectionTitle, requestService } from "../ui";
 
-const theme: TableTheme = {
-  bg: "#5f725a",
-  top: "#e9e2d4",
-  leg: "#334238",
-  accent: "#9a4729",
-  pill: "#252622",
-  pillText: "#efe8dc",
-  sheet: { position: [-0.3, 0.012, -1.3], rotation: Math.PI / 2 },
-};
+const M = "/images/mesas";
 
-const items: TableItem[] = [
+// Coordenadas em pixels da foto da bancada (1672 × 941).
+const objects: MesaObject[] = [
   {
     key: "laser",
     label: "Laser",
     title: "Remoção de tatuagem",
     description:
       "O laser fragmenta o pigmento e o corpo faz o resto. Clareie para cobrir ou remova por completo.",
-    cta: "Como funciona",
     target: "remocao",
-    position: [-0.9, 0, 0.7],
-    labelHeight: 0.85,
-    view: { azimuth: -0.45, elevation: 0.5, distance: 4.4 },
-    node: <LaserPen />,
+    icon: "laser",
+    pin: [600, 262],
+    pieces: [{ src: `${M}/obj-laser-laser.webp`, x: 427, y: 197, w: 382, h: 608 }],
+  },
+  {
+    key: "oculos",
+    label: "Óculos",
+    title: "Cuidados e segurança",
+    description:
+      "Proteção para os olhos, para a pele e um protocolo claro de antes e depois de cada sessão.",
+    target: "laser-cuidados",
+    icon: "goggles",
+    pin: [1058, 252],
+    pieces: [{ src: `${M}/obj-laser-oculos.webp`, x: 868, y: 177, w: 384, h: 156 }],
   },
   {
     key: "carbono",
     label: "Carbono",
     title: "Peeling Hollywood",
     description:
-      "Loção de carbono + laser: menos oleosidade, poros fechados e pele com viço na hora.",
-    cta: "Conhecer o peeling",
+      "Loção de carbono e laser: menos oleosidade, poros fechados e pele com viço na hora.",
     target: "peeling",
-    position: [1.6, 0, 0.9],
-    labelHeight: 0.85,
-    view: { azimuth: 0.55, elevation: 0.55, distance: 4 },
-    node: <CarbonJar />,
-  },
-  {
-    key: "oculos",
-    label: "Óculos de proteção",
-    title: "Cuidados e segurança",
-    description:
-      "Proteção para os olhos, para a pele e um protocolo claro de antes e depois de cada sessão.",
-    cta: "Ver cuidados",
-    target: "laser-cuidados",
-    position: [0.3, 0, -0.6],
-    labelHeight: 0.6,
-    view: { azimuth: 1.1, elevation: 0.65, distance: 3.6 },
-    node: <Goggles />,
+    icon: "sparkle",
+    pin: [903, 448],
+    pieces: [{ src: `${M}/obj-laser-pote.webp`, x: 803, y: 399, w: 201, h: 193 }],
   },
   {
     key: "serum",
     label: "Sérum",
-    title: "Agende sua avaliação",
+    title: "Agendar avaliação",
     description:
       "Mande uma foto da tatuagem ou conte o que quer melhorar na pele. A avaliação é o primeiro passo.",
-    cta: "Agendar avaliação",
     target: "agendar",
-    position: [2.2, 0, -0.9],
-    labelHeight: 1.2,
-    view: { azimuth: 1.6, elevation: 0.45, distance: 4.2 },
-    node: <SerumBottle />,
+    service: "remocao",
+    icon: "dropper",
+    pin: [1150, 520],
+    pieces: [
+      { src: `${M}/obj-laser-frasco1.webp`, x: 1038, y: 367, w: 107, h: 292 },
+      { src: `${M}/obj-laser-frasco2.webp`, x: 1162, y: 456, w: 105, h: 287 },
+    ],
   },
 ];
 
@@ -382,22 +370,22 @@ export function LaserSection() {
         color="#efe8dc"
         bg="#252622"
       />
-      <TableScene
+      <MesaFixa
         id="mesa-laser"
         eyebrow="03 — Laser & Peeling Hollywood"
         title={
           <>
-            A mesa do <em className="text-carvao">laser.</em>
+            A mesa do <em className="text-areia">laser.</em>
           </>
         }
-        intro="Remoção de tatuagem e Peeling Hollywood. Role para girar a mesa e conhecer cada tratamento."
-        theme={theme}
-        items={items}
-        decor={
-          <group position={[-2.3, 0, -0.4]} rotation={[0, 0.5, 0]}>
-            <LaserUnit />
-          </group>
-        }
+        intro="Remoção de tatuagem e Peeling Hollywood. Escolha um objeto da bancada para conhecer cada tratamento."
+        image={`${M}/laser.webp`}
+        alt="Bancada clara com a ponteira do laser, óculos de proteção, pote e dois frascos conta-gotas Bartô"
+        width={1672}
+        height={941}
+        objects={objects}
+        bg="#5f725a"
+        mobileZoom={1.5}
       />
       <Marquee
         icons={["sparkle", "laser", "face", "dropper", "goggles"]}

@@ -1,33 +1,33 @@
-import { TableScene, type TableItem, type TableTheme } from "../three/TableScene";
-import { Clipper, Dryer, Pomade, Razor, Scissors } from "../three/models";
+import { MesaFixa, type MesaObject } from "../MesaFixa";
 import { Marquee } from "../Marquee";
 import { BARBERS, BARBER_SERVICES, HAIRCUTS } from "../content";
 import { Placeholder, ProfessionalCard, RipeCarousel, SectionTitle, requestService } from "../ui";
+import { scrollToId } from "../scroll";
 
-const theme: TableTheme = {
-  bg: "#334238",
-  top: "#5a3d2b",
-  leg: "#c9a46a",
-  mat: "#252622",
-  accent: "#9a4729",
-  pill: "#efe8dc",
-  pillText: "#252622",
-  sheet: { position: [1.9, 0.025, 0.9], rotation: -0.25 },
-};
+const M = "/images/mesas";
 
-const items: TableItem[] = [
+// Coordenadas em pixels da foto da bancada (1672 × 941).
+const objects: MesaObject[] = [
   {
     key: "maquina-corte",
-    label: "Máquina de corte",
+    label: "Máquina",
     title: "Cortes da casa",
     description:
       "Fades, degradês, cortes na tesoura e barbas desenhadas. Veja o que sai da cadeira do Bartô.",
-    cta: "Ver cortes",
     target: "cortes",
-    position: [-1.8, 0, 0.5],
-    labelHeight: 0.75,
-    view: { azimuth: -0.6, elevation: 0.5, distance: 4.4 },
-    node: <Clipper />,
+    icon: "clipper",
+    pin: [256, 322],
+    pieces: [{ src: `${M}/obj-barbearia-maquina.webp`, x: 192, y: 300, w: 128, h: 383 }],
+  },
+  {
+    key: "navalha",
+    label: "Navalha",
+    title: "Profissionais",
+    description: "Conheça os barbeiros que fazem o Bartô e as histórias por trás de cada um.",
+    target: "profissionais",
+    icon: "razor",
+    pin: [538, 372],
+    pieces: [{ src: `${M}/obj-barbearia-navalha.webp`, x: 374, y: 327, w: 225, h: 298 }],
   },
   {
     key: "tesoura",
@@ -35,36 +35,21 @@ const items: TableItem[] = [
     title: "Serviços",
     description:
       "Corte na tesoura, na máquina, barba, sobrancelha e barboterapia. Escolha o seu ritual.",
-    cta: "Ver serviços",
     target: "servicos",
-    position: [0.2, 0, -0.9],
-    labelHeight: 0.5,
-    view: { azimuth: 0.15, elevation: 0.75, distance: 3.9 },
-    node: <Scissors />,
-  },
-  {
-    key: "navalha",
-    label: "Navalha",
-    title: "Profissionais",
-    description: "Conheça os barbeiros que fazem o Bartô — e as histórias por trás de cada um.",
-    cta: "Conhecer a equipe",
-    target: "profissionais",
-    position: [0.3, 0, 1.1],
-    labelHeight: 0.5,
-    view: { azimuth: 0.85, elevation: 0.6, distance: 3.8 },
-    node: <Razor />,
+    icon: "scissors",
+    pin: [1150, 338],
+    pieces: [{ src: `${M}/obj-barbearia-tesoura.webp`, x: 1074, y: 311, w: 148, h: 349 }],
   },
   {
     key: "secador",
     label: "Secador",
-    title: "Agende seu horário",
+    title: "Agendar horário",
     description: "Escolha o serviço e o profissional. A gente confirma pelo WhatsApp.",
-    cta: "Agendar",
     target: "agendar",
-    position: [2.1, 0, -0.9],
-    labelHeight: 1.0,
-    view: { azimuth: 1.45, elevation: 0.48, distance: 4.4 },
-    node: <Dryer />,
+    service: "barbearia",
+    icon: "dryer",
+    pin: [1432, 322],
+    pieces: [{ src: `${M}/obj-barbearia-secador.webp`, x: 1192, y: 289, w: 337, h: 372 }],
   },
 ];
 
@@ -206,22 +191,23 @@ export function BarberSection() {
         color="#efe8dc"
         bg="#5f725a"
       />
-      <TableScene
+      <MesaFixa
         id="mesa-barbearia"
-        eyebrow="02 — Barbearia"
+        eyebrow="01 — Barbearia"
         title={
           <>
             A bancada do <em className="text-areia">barbeiro.</em>
           </>
         }
-        intro="Máquina, tesoura, navalha e secador. Role para girar a bancada e escolha por onde começar."
-        theme={theme}
-        items={items}
-        decor={
-          <group position={[-0.5, 0, 0.3]} rotation={[0, 0.4, 0]}>
-            <Pomade />
-          </group>
-        }
+        intro="Máquina, navalha, tesoura e secador. Escolha um objeto da bancada para ir direto ao assunto."
+        image={`${M}/barbearia.webp`}
+        alt="Bancada de barbearia com máquina de corte, navalha, tesoura e secador sobre um tapete preto com o logo Bartô"
+        width={1672}
+        height={941}
+        objects={objects}
+        bg="#334238"
+        mobileZoom={1.12}
+        compactPins
       />
       <Marquee
         icons={["scissors", "comb", "pole", "clipper", "razor", "dryer", "brush"]}
@@ -241,6 +227,15 @@ export function BarberSection() {
       <Cuts />
       <Services />
       <Team />
+      <div className="flex justify-center bg-musgo pb-20">
+        <button
+          onClick={() => scrollToId("tatuagem")}
+          className="eyebrow flex flex-col items-center gap-3 text-creme/70 transition hover:text-creme"
+        >
+          Próxima mesa: Tatuagem
+          <span className="block h-10 w-px bg-creme/50" />
+        </button>
+      </div>
     </div>
   );
 }

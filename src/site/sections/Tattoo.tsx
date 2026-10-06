@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { TableScene, type TableItem, type TableTheme } from "../three/TableScene";
-import { FilmRoll, Gloves, InkBottles, InkCaps, TattooMachine } from "../three/models";
+import { MesaFixa, type MesaObject } from "../MesaFixa";
 import { Marquee } from "../Marquee";
 import {
   AFTERCARE,
@@ -15,69 +14,57 @@ import {
 import { Lightbox, ProfessionalCard, RipeCarousel, SectionTitle, requestService } from "../ui";
 import { scrollToId } from "../scroll";
 
-const theme: TableTheme = {
-  bg: "#252622",
-  top: "#3b2a1f",
-  leg: "#9aa09a",
-  mat: "#334238",
-  accent: "#9a4729",
-  pill: "#9a4729",
-  pillText: "#efe8dc",
-  sheet: { position: [-1.75, 0.025, 0.55], rotation: 0.18 },
-};
+const M = "/images/mesas";
 
-const items: TableItem[] = [
-  {
-    key: "maquina",
-    label: "Máquina",
-    title: "Faça seu orçamento",
-    description:
-      "A máquina só liga depois do seu projeto aprovado. Conte sua ideia e receba uma proposta sem compromisso.",
-    cta: "Fazer orçamento",
-    target: "orcamento",
-    position: [-1.6, 0, 0.55],
-    labelHeight: 0.9,
-    view: { azimuth: -0.55, elevation: 0.55, distance: 4.6 },
-    node: <TattooMachine />,
-  },
-  {
-    key: "tintas",
-    label: "Tintas",
-    title: "Trabalhos que falam por si",
-    description:
-      "Fotos e vídeos de tatuagens feitas no estúdio. Black & Gray, fechamentos e cor que não desbota.",
-    cta: "Ver portfólio",
-    target: "portfolio",
-    position: [1.9, 0, -0.85],
-    labelHeight: 1.35,
-    view: { azimuth: 0.35, elevation: 0.42, distance: 4.4 },
-    node: <InkBottles />,
-  },
+// Coordenadas em pixels da foto da bancada (1672 × 941).
+const objects: MesaObject[] = [
   {
     key: "insulfilme",
     label: "Insulfilme",
     title: "Cuidados pós-tatuagem",
     description:
       "A tatuagem termina na cicatrização. Veja o passo a passo para manter o traço e a cor por anos.",
-    cta: "Ver cuidados",
     target: "cuidados",
-    position: [-0.5, 0, -1.15],
-    labelHeight: 1.05,
-    view: { azimuth: 0.95, elevation: 0.5, distance: 4.4 },
-    node: <FilmRoll />,
+    icon: "rose",
+    pin: [513, 430],
+    pieces: [{ src: `${M}/obj-tatuagem-rolo.webp`, x: 431, y: 177, w: 165, h: 588 }],
+  },
+  {
+    key: "tintas",
+    label: "Tintas",
+    title: "Fotos e vídeos",
+    description:
+      "Fotos e vídeos de tatuagens feitas no estúdio. Black & Gray, fechamentos e cor que não desbota.",
+    target: "portfolio",
+    icon: "ink",
+    pin: [944, 262],
+    pieces: [
+      { src: `${M}/obj-tatuagem-tinta1.webp`, x: 695, y: 157, w: 133, h: 331 },
+      { src: `${M}/obj-tatuagem-tinta2.webp`, x: 889, y: 168, w: 123, h: 347 },
+      { src: `${M}/obj-tatuagem-tinta3.webp`, x: 1067, y: 193, w: 127, h: 330 },
+    ],
+  },
+  {
+    key: "maquina",
+    label: "Máquina",
+    title: "Orçamento",
+    description:
+      "A máquina só liga depois do seu projeto aprovado. Conte sua ideia e receba uma proposta sem compromisso.",
+    target: "orcamento",
+    icon: "machine",
+    pin: [790, 622],
+    pieces: [{ src: `${M}/obj-tatuagem-maquina.webp`, x: 633, y: 496, w: 337, h: 279 }],
   },
   {
     key: "batoques",
     label: "Batoques",
     title: "Estilos de tatuagem",
     description:
-      "Cada batoque guarda uma cor — e cada estilo, uma técnica. Conheça os estilos que fazemos.",
-    cta: "Ver estilos",
+      "Cada batoque guarda uma cor e cada estilo, uma técnica. Conheça os estilos que fazemos.",
     target: "estilos",
-    position: [1.25, 0, 1.0],
-    labelHeight: 0.75,
-    view: { azimuth: 1.55, elevation: 0.62, distance: 3.9 },
-    node: <InkCaps />,
+    icon: "caps",
+    pin: [1120, 668],
+    pieces: [{ src: `${M}/obj-tatuagem-batoques.webp`, x: 1019, y: 552, w: 204, h: 231 }],
   },
 ];
 
@@ -195,7 +182,7 @@ function Artist() {
     <section id="tatuador" className="bg-carvao px-4 py-28 md:px-8 md:py-36">
       <div className="mx-auto max-w-[1400px]">
         <p data-reveal className="eyebrow mb-10 text-areia">
-          O artista
+          Conheça
         </p>
         <ProfessionalCard p={TATTOO_ARTIST} accent="#9a4729" />
       </div>
@@ -346,22 +333,22 @@ export function TattooSection() {
         color="#efe8dc"
         bg="#9a4729"
       />
-      <TableScene
+      <MesaFixa
         id="mesa-tatuagem"
-        eyebrow="01 — Estúdio de tatuagem"
+        eyebrow="02 — Estúdio de tatuagem"
         title={
           <>
             A mesa do <em className="text-cobre">tatuador.</em>
           </>
         }
-        intro="Role para girar a mesa. Cada ferramenta leva você a uma parte do estúdio — ou toque no + para ir direto."
-        theme={theme}
-        items={items}
-        decor={
-          <group position={[2.6, 0, 0.6]}>
-            <Gloves />
-          </group>
-        }
+        intro="Insulfilme, tintas, máquina e batoques. Cada ferramenta leva você a uma parte do estúdio."
+        image={`${M}/tatuagem.webp`}
+        alt="Bancada de tatuagem coberta com plástico: rolo de insulfilme, três frascos de tinta Bartô, máquina pen e batoques de tinta"
+        width={1672}
+        height={941}
+        objects={objects}
+        bg="#252622"
+        mobileZoom={1.5}
       />
       <Marquee
         icons={["ink", "rose", "machine", "caps", "needle"]}
@@ -377,10 +364,10 @@ export function TattooSection() {
       <Styles />
       <div className="flex justify-center bg-musgo pb-20">
         <button
-          onClick={() => scrollToId("barbearia")}
+          onClick={() => scrollToId("laser")}
           className="eyebrow flex flex-col items-center gap-3 text-creme/70 transition hover:text-creme"
         >
-          Próxima mesa: Barbearia
+          Próxima mesa: Laser
           <span className="block h-10 w-px bg-creme/50" />
         </button>
       </div>
