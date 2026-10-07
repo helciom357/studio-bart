@@ -73,8 +73,8 @@ export function Placeholder({
 export type CarouselCard = {
   key: string;
   media: ReactNode;
-  pill: string;
-  title: string;
+  pill?: string;
+  title?: string;
   pillColor?: string;
   pillText?: string;
   onClick?: () => void;
@@ -161,15 +161,19 @@ export function RipeCarousel({
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-carvao/85 via-carvao/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 flex flex-col items-center p-7 text-center">
-                <span
-                  className="pill -rotate-3 transition-transform duration-500 group-hover:rotate-0"
-                  style={{ background: c.pillColor ?? "#5f725a", color: c.pillText ?? "#efe8dc" }}
-                >
-                  {c.pill}
-                </span>
-                <span className="display mt-2 text-4xl uppercase text-creme md:text-5xl">
-                  {c.title}
-                </span>
+                {c.pill && (
+                  <span
+                    className="pill -rotate-3 transition-transform duration-500 group-hover:rotate-0"
+                    style={{ background: c.pillColor ?? "#5f725a", color: c.pillText ?? "#efe8dc" }}
+                  >
+                    {c.pill}
+                  </span>
+                )}
+                {c.title && (
+                  <span className="display mt-2 text-4xl uppercase text-creme md:text-5xl">
+                    {c.title}
+                  </span>
+                )}
                 <span className="mt-5 flex h-9 w-16 items-center justify-center rounded-full bg-creme/90 text-carvao transition-all duration-500 group-hover:w-20 group-hover:bg-cobre group-hover:text-creme">
                   →
                 </span>

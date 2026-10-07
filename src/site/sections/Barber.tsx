@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { MesaFixa, type MesaObject } from "../MesaFixa";
 import { Marquee } from "../Marquee";
-import { BARBERS, BARBER_SERVICES, HAIRCUTS } from "../content";
-import { Placeholder, ProfessionalCard, RipeCarousel, SectionTitle, requestService } from "../ui";
+import { BARBERS, BARBER_SERVICES, HAIRCUT_PHOTOS } from "../content";
+import { Lightbox, ProfessionalCard, RipeCarousel, SectionTitle, requestService } from "../ui";
 import { scrollToId } from "../scroll";
 
 const M = "/images/mesas";
@@ -54,6 +55,7 @@ const objects: MesaObject[] = [
 ];
 
 function Cuts() {
+  const [open, setOpen] = useState<string | null>(null);
   return (
     <section id="cortes" className="relative overflow-hidden bg-[#2b382f] py-28 md:py-36">
       <div className="mx-auto mb-14 max-w-[1400px] px-4 md:px-8">
@@ -64,11 +66,11 @@ function Cuts() {
               Da cadeira <em className="text-areia">para a rua.</em>
             </>
           }
-          text="Fotos ilustrativas — em breve, os cortes reais da casa. Arraste para navegar."
+          text="Cortes reais feitos na casa. Arraste para navegar, toque para ampliar."
         />
       </div>
       <RipeCarousel
-        duration={50}
+        duration={Math.max(50, HAIRCUT_PHOTOS.length * 7.5)}
         intro={
           <>
             <p className="display text-[2.6rem] uppercase leading-[0.9] text-creme">
@@ -82,22 +84,21 @@ function Cuts() {
             </div>
           </>
         }
-        cards={HAIRCUTS.map((c, i) => ({
-          key: c.title,
+        cards={HAIRCUT_PHOTOS.map((src) => ({
+          key: src,
           media: (
-            <Placeholder
-              icon={["clipper", "scissors", "comb", "razor", "dryer", "brush"][i % 6] ?? "clipper"}
-              label="Foto fictícia"
-              tone={i % 2 ? "#5f725a" : "#9a4729"}
+            <img
+              src={src}
+              alt="Corte feito na Barbearia Bartô"
+              loading="lazy"
+              className="h-full w-full object-cover"
+              draggable={false}
             />
           ),
-          pill: c.tag,
-          title: c.title,
-          pillColor: i % 2 ? "#efe8dc" : "#334238",
-          pillText: i % 2 ? "#252622" : "#efe8dc",
-          onClick: () => requestService("barbearia"),
+          onClick: () => setOpen(src),
         }))}
       />
+      <Lightbox src={open} alt="Corte feito na Barbearia Bartô" onClose={() => setOpen(null)} />
     </section>
   );
 }

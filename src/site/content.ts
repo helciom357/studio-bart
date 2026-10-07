@@ -185,14 +185,11 @@ export const AFTERCARE = [
   },
 ];
 
-export const HAIRCUTS = [
-  { title: "Low fade", tag: "Máquina", placeholder: true },
-  { title: "Pompadour", tag: "Tesoura", placeholder: true },
-  { title: "Corte social", tag: "Tesoura", placeholder: true },
-  { title: "Mid fade + barba", tag: "Combo", placeholder: true },
-  { title: "Buzz cut", tag: "Máquina", placeholder: true },
-  { title: "Barba desenhada", tag: "Barba", placeholder: true },
-];
+// Fotos reais da barbearia (sem nome do corte), na ordem do carrossel.
+export const HAIRCUT_PHOTOS = Array.from(
+  { length: 15 },
+  (_, i) => `/images/cortes/corte-${String(i + 1).padStart(2, "0")}.webp`,
+);
 
 export const BARBER_SERVICES = [
   {
