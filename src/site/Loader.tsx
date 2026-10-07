@@ -80,11 +80,15 @@ export function Loader({ onReveal, onDone }: { onReveal: () => void; onDone: () 
     };
     window.addEventListener("load", onLoad);
     let flight: gsap.core.Tween | null = null;
+    // O SVG chega escondido do servidor (.l-svg); só aparece depois que cada elemento
+    // já está no seu estado inicial, para não mostrar a logo pronta parada.
+    const showSvg = () => gsap.set(q(".l-svg"), { visibility: "visible" });
 
     if (reduce) {
       gsap.set(q(".l-construct, .l-pts, .l-outline"), { opacity: 0 });
       gsap.set(q(".l-fill"), { fillOpacity: 1, fill: CREME });
       gsap.set(q(".l-tagchar"), { opacity: 1 });
+      showSvg();
       setNum(1);
       const t = gsap.to(el, {
         autoAlpha: 0,
@@ -262,6 +266,9 @@ export function Loader({ onReveal, onDone }: { onReveal: () => void; onDone: () 
         DONE + 1.42,
       );
 
+    // Os fromTo já aplicaram os estados iniciais (renderização imediata): agora pode mostrar.
+    showSvg();
+
     return () => {
       tl.kill();
       flight?.kill();
@@ -283,7 +290,7 @@ export function Loader({ onReveal, onDone }: { onReveal: () => void; onDone: () 
     >
       <div className="l-bg pointer-events-auto absolute inset-0 bg-verde" style={{ clipPath: "inset(0% 0% 0% 0%)" }} />
       <div className="l-logo relative w-[min(94vw,1150px)] will-change-transform">
-        <svg viewBox={VIEW} className="h-auto w-full overflow-visible" aria-hidden>
+        <svg viewBox={VIEW} className="l-svg h-auto w-full overflow-visible" aria-hidden>
           {/* Fase 1: grid de construção */}
           <g className="l-construct">
             <g strokeOpacity={0.08} strokeWidth={1}>

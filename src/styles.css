@@ -202,6 +202,12 @@
   transform: translateY(40px);
 }
 
+/* Loader: o desenho só aparece quando a animação já preparou o estado inicial
+   (evita o quadro estático da logo pronta antes do JavaScript carregar). */
+.l-svg {
+  visibility: hidden;
+}
+
 /* Loader: traços desenhados com dash precisam de espessura no sistema do SVG */
 .l-dash {
   stroke-width: 2.2;
