@@ -202,6 +202,25 @@
   transform: translateY(40px);
 }
 
+/* Hero: a foto da fachada é vertical. No celular ela preenche a tela; em telas
+   deitadas aparece inteira à direita, sobre a mesma foto desfocada. */
+.h-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-aspect-ratio: 1/1) {
+  .h-photo {
+    left: auto;
+    width: auto;
+    aspect-ratio: 2048 / 2558;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 20%);
+    mask-image: linear-gradient(to right, transparent 0, #000 20%);
+  }
+}
+
 /* Loader: o desenho só aparece quando a animação já preparou o estado inicial
    (evita o quadro estático da logo pronta antes do JavaScript carregar). */
 .l-svg {

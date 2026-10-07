@@ -73,12 +73,29 @@ function Cuts() {
         duration={Math.max(50, HAIRCUT_PHOTOS.length * 7.5)}
         intro={
           <>
-            <p className="display text-[2.6rem] uppercase leading-[0.9] text-creme">
+            {/* Fachada da barbearia: placa e porta no meio do card, degradês para o texto. */}
+            <img
+              src="/images/cortes/fachada-card.webp"
+              alt="Fachada da Barbearia Bartô"
+              loading="lazy"
+              draggable={false}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: "50% 45%" }}
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgb(37 38 34 / 0.88) 0%, rgb(37 38 34 / 0.35) 24%, rgb(37 38 34 / 0) 38%, rgb(37 38 34 / 0) 66%, rgb(37 38 34 / 0.9) 100%)",
+              }}
+            />
+            <p className="display relative text-[2.6rem] uppercase leading-[0.9] text-creme">
               Corte é assinatura.
             </p>
-            <div>
+            <div className="relative">
               <span className="pill bg-cobre text-creme">Barbearia Bartô</span>
-              <p className="mt-4 text-sm text-creme/70">
+              <p className="mt-4 text-sm text-creme/80">
                 Tesoura, máquina e navalha — no seu estilo.
               </p>
             </div>
