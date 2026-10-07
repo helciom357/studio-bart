@@ -3,12 +3,15 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { scrollToId } from "./scroll";
 
-// Ponto da porta de entrada na foto da fachada (px da imagem original 1092×1440).
-const IMG_W = 1092;
-const IMG_H = 1440;
-const DOOR_X = 630;
-const DOOR_Y = 860;
-const POS_Y = 0.62; // object-position vertical
+// Ponto da porta de entrada na foto da fachada (px da imagem 2048×2558).
+const IMG_W = 2048;
+const IMG_H = 2558;
+const DOOR_X = 1395;
+const DOOR_Y = 1480;
+// object-position vertical: em telas largas mostra a placa, a vitrine e a porta.
+const POS_Y = 0.42;
+// Zoom máximo na porta. Mais que isso a foto perde nitidez.
+const ZOOM = 3.8;
 
 export function Hero({ ready }: { ready: boolean }) {
   const section = useRef<HTMLElement>(null);
@@ -37,18 +40,20 @@ export function Hero({ ready }: { ready: boolean }) {
     gsap.registerPlugin(ScrollTrigger);
     const q = gsap.utils.selector(el);
     const ctx = gsap.context(() => {
+      // scrub maior = o zoom "alcança" a rolagem com suavidade, sem trancos.
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: 0.6 },
+        defaults: { force3D: true },
+        scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: 1.1 },
       });
       tl.to(q(".h-copy"), { yPercent: -40, opacity: 0, duration: 0.25, ease: "power2.in" }, 0)
         .to(q(".h-cue"), { opacity: 0, duration: 0.1 }, 0)
-        .to(facade.current, { scale: 6, duration: 0.75, ease: "power3.in" }, 0)
-        .to(q(".h-tint"), { opacity: 0.85, duration: 0.6, ease: "power2.in" }, 0.15)
+        .to(facade.current, { scale: ZOOM, duration: 0.72, ease: "power2.in" }, 0)
+        .to(q(".h-tint"), { opacity: 0.85, duration: 0.55, ease: "power1.in" }, 0.15)
         .fromTo(
           q(".h-inside"),
-          { opacity: 0, scale: 1.35 },
-          { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" },
-          0.62,
+          { opacity: 0, scale: 1.25 },
+          { opacity: 1, scale: 1, duration: 0.32, ease: "power2.out" },
+          0.55,
         )
         .fromTo(q(".h-welcome"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.15 }, 0.75)
         .to(q(".h-welcome"), { opacity: 0, y: -60, duration: 0.1 }, 0.92)
@@ -70,21 +75,33 @@ export function Hero({ ready }: { ready: boolean }) {
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.5, ease: "power3.out" },
     );
-    gsap.fromTo(facade.current, { scale: 1.15 }, { scale: 1, duration: 2.2, ease: "expo.out" });
+    // O zoom de entrada fica num invólucro separado para não brigar com o zoom da rolagem.
+    gsap.fromTo(
+      q(".h-media"),
+      { scale: 1.12 },
+      { scale: 1, duration: 2.4, ease: "expo.out", force3D: true },
+    );
   }, [ready]);
 
   return (
     <section id="inicio" ref={section} className="relative h-[320vh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-carvao">
-        <img
-          ref={facade}
-          src="/images/fachada.webp"
-          alt="Fachada do Studio Bartô em Perdizes"
-          className="absolute inset-0 h-full w-full object-cover will-change-transform"
-          style={{ objectPosition: `50% ${POS_Y * 100}%` }}
-          fetchPriority="high"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-musgo via-musgo/10 to-carvao/40 mix-blend-multiply" />
+        <div className="h-media absolute inset-0 will-change-transform">
+          <img
+            ref={facade}
+            src="/images/fachada-frente.webp"
+            alt="Fachada do Studio Bartô em Perdizes"
+            width={IMG_W}
+            height={IMG_H}
+            className="absolute inset-0 h-full w-full object-cover will-change-transform"
+            style={{ objectPosition: `50% ${POS_Y * 100}%` }}
+            fetchPriority="high"
+            decoding="async"
+            draggable={false}
+          />
+        </div>
+        {/* Degradês sem mix-blend: o navegador não precisa recompor a mistura a cada quadro do zoom. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-carvao/85 via-musgo/10 to-carvao/35" />
         <div className="absolute inset-0 bg-gradient-to-r from-carvao/80 via-carvao/20 to-transparent" />
         <div className="h-tint absolute inset-0 bg-carvao opacity-0" />
 

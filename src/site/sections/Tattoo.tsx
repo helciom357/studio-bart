@@ -144,12 +144,30 @@ function Portfolio() {
         duration={Math.max(60, PORTFOLIO.length * 7.5)}
         intro={
           <>
-            <p className="display text-[2.6rem] uppercase leading-[0.9] text-creme">
+            {/* Vinny no estúdio: rosto no meio do card, teto livre para o título e
+                degradês em cima e embaixo para o texto continuar legível. */}
+            <img
+              src="/images/team/vinny-estudio.webp"
+              alt="Vinny Darian no estúdio de tatuagem do Bartô"
+              loading="lazy"
+              draggable={false}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: "44% 85%" }}
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgb(37 38 34 / 0.88) 0%, rgb(37 38 34 / 0.35) 24%, rgb(37 38 34 / 0) 38%, rgb(37 38 34 / 0) 68%, rgb(37 38 34 / 0.9) 100%)",
+              }}
+            />
+            <p className="display relative text-[2.6rem] uppercase leading-[0.9] text-creme">
               Arte que dura a vida toda.
             </p>
-            <div>
+            <div className="relative">
               <span className="pill bg-verde text-creme">Vinny Darian</span>
-              <p className="mt-4 text-sm text-creme/70">
+              <p className="mt-4 text-sm text-creme/80">
                 +20 anos entre São Paulo, Suíça e Los Angeles.
               </p>
             </div>

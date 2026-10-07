@@ -100,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "preload", href: "/images/fachada.webp", as: "image" },
+      { rel: "preload", href: "/images/fachada-frente.webp", as: "image" },
     ],
   }),
   shellComponent: RootShell,
