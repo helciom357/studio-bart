@@ -141,6 +141,7 @@ function Portfolio() {
         />
       </div>
       <RipeCarousel
+        duration={Math.max(60, PORTFOLIO.length * 7.5)}
         intro={
           <>
             <p className="display text-[2.6rem] uppercase leading-[0.9] text-creme">

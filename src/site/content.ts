@@ -76,15 +76,33 @@ export const TATTOO_STATS = [
   { value: "+3", label: "países com experiência" },
 ];
 
+// Frames dos vídeos do estúdio, equilibrados por estilo (3 por estilo; Full Color e Geek com 2).
 export const PORTFOLIO = [
-  { src: "/images/tattoo/port-00.webp", title: "Máscaras", style: "Full Color" },
-  { src: "/images/tattoo/port-01.webp", title: "Onça", style: "Black & Gray" },
-  { src: "/images/tattoo/esp-blackgray.webp", title: "Leão", style: "Black & Gray" },
-  { src: "/images/tattoo/port-10.webp", title: "Braço fechado", style: "Fechamento" },
-  { src: "/images/tattoo/esp-fullcolor.webp", title: "Magneto", style: "Full Color" },
-  { src: "/images/tattoo/port-11.webp", title: "Manga completa", style: "Fechamento" },
-  { src: "/images/tattoo/esp-fechamento.webp", title: "Fé", style: "Fechamento" },
-  { src: "/images/tattoo/port-12.webp", title: "Costas florais", style: "Black & Gray" },
+  { src: "/images/tattoo/gladiador.webp", title: "Gladiador", style: "Fechamento" },
+  { src: "/images/tattoo/carpa-samurai.webp", title: "Carpa e samurai", style: "Full Color" },
+  { src: "/images/tattoo/tigre-mandala.webp", title: "Tigre e mandala", style: "Fine Line" },
+  { src: "/images/tattoo/magneto.webp", title: "Magneto", style: "Comics" },
+  { src: "/images/tattoo/dama-vendada.webp", title: "Dama vendada", style: "Preto e Cinza" },
+  { src: "/images/tattoo/flores.webp", title: "Flores", style: "Floral" },
+  { src: "/images/tattoo/itachi.webp", title: "Itachi", style: "Geek" },
+  { src: "/images/tattoo/braco-lettering.webp", title: "Braço escrito", style: "Lettering" },
+  { src: "/images/tattoo/mao-e-flores.webp", title: "Mão e flores", style: "Feminina" },
+  { src: "/images/tattoo/lobos.webp", title: "Lobos", style: "Fechamento" },
+  { src: "/images/tattoo/retrato-colorido.webp", title: "Retrato colorido", style: "Full Color" },
+  { src: "/images/tattoo/sol-e-lua.webp", title: "Sol e lua", style: "Fine Line" },
+  { src: "/images/tattoo/coringa.webp", title: "Coringa", style: "Comics" },
+  { src: "/images/tattoo/cocar.webp", title: "Cocar", style: "Preto e Cinza" },
+  { src: "/images/tattoo/onca-costas.webp", title: "Onça nas costas", style: "Floral" },
+  { src: "/images/tattoo/aldebaran.webp", title: "Aldebaran", style: "Geek" },
+  { src: "/images/tattoo/pra-quem-tem-fe.webp", title: "Pra quem tem fé", style: "Lettering" },
+  { src: "/images/tattoo/leao-e-rosas.webp", title: "Leão e rosas", style: "Feminina" },
+  { src: "/images/tattoo/leao.webp", title: "Leão", style: "Fechamento" },
+  { src: "/images/tattoo/onca-florida.webp", title: "Onça florida", style: "Fine Line" },
+  { src: "/images/tattoo/hera-venenosa.webp", title: "Hera Venenosa", style: "Comics" },
+  { src: "/images/tattoo/cristo-e-leao.webp", title: "Cristo e leão", style: "Preto e Cinza" },
+  { src: "/images/tattoo/ramo-pulso.webp", title: "Ramo no pulso", style: "Floral" },
+  { src: "/images/tattoo/frase-e-flores.webp", title: "Frase e flores", style: "Lettering" },
+  { src: "/images/tattoo/borboletas.webp", title: "Borboletas", style: "Feminina" },
 ];
 
 export const TATTOO_STYLES = [
