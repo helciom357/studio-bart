@@ -111,7 +111,7 @@ function RemovalSimulator() {
           Simulação ilustrativa
         </span>
         <span className="display absolute bottom-3 right-5 text-6xl text-carvao/70">
-          {sessions === 0 ? "Antes" : `${sessions}ª`}
+          {sessions === 0 ? "Antes" : "Depois"}
         </span>
       </div>
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
@@ -129,9 +129,6 @@ function RemovalSimulator() {
             </button>
           ))}
         </div>
-        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-creme/60">
-          {sessions} {sessions === 1 ? "sessão" : "sessões"}
-        </span>
       </div>
       <input
         type="range"
@@ -140,7 +137,7 @@ function RemovalSimulator() {
         value={sessions}
         onChange={(e) => setSessions(Number(e.target.value))}
         className="mt-5 w-full accent-[#9a4729]"
-        aria-label="Número de sessões"
+        aria-label="Simular o clareamento da tatuagem"
       />
       <p className="mt-3 text-xs leading-relaxed text-creme/50">
         Arraste para simular o clareamento ao longo das sessões. Pigmentos coloridos costumam
