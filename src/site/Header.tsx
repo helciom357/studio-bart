@@ -71,7 +71,12 @@ export function Header() {
         } ${scrolled ? "bg-carvao/75 backdrop-blur-xl" : "bg-gradient-to-b from-carvao/70 to-transparent"}`}
       >
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-6 px-4 py-3 md:px-8 md:py-4">
-          <button onClick={() => go("inicio")} className="text-creme" aria-label="Voltar ao início">
+          <button
+            onClick={() => go("inicio")}
+            className="text-creme"
+            aria-label="Voltar ao início"
+            data-header-logo
+          >
             <Logo className="h-9 w-auto md:h-11" />
           </button>
           <nav className="hidden items-center gap-1 rounded-full border border-creme/15 bg-musgo/40 p-1 backdrop-blur-md lg:flex">

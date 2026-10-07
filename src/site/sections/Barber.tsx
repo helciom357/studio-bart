@@ -49,7 +49,7 @@ const objects: MesaObject[] = [
     service: "barbearia",
     icon: "dryer",
     pin: [1432, 322],
-    pieces: [{ src: `${M}/obj-barbearia-secador.webp`, x: 1192, y: 289, w: 337, h: 372 }],
+    pieces: [{ src: `${M}/obj-barbearia-secador.webp`, x: 1189, y: 289, w: 343, h: 374 }],
   },
 ];
 

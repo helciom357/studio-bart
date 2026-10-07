@@ -16,6 +16,7 @@ import { initSmoothScroll, setScrollLocked } from "./scroll";
 
 export function Site() {
   const [loading, setLoading] = useState(true);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
@@ -53,18 +54,20 @@ export function Site() {
     };
   }, []);
 
-  const done = useCallback(() => {
-    setLoading(false);
+  // O site é revelado enquanto a logo do loader voa até o menu.
+  const reveal = useCallback(() => {
+    setReady(true);
     setScrollLocked(false);
     ScrollTrigger.refresh();
   }, []);
+  const done = useCallback(() => setLoading(false), []);
 
   return (
     <>
-      {loading && <Loader onDone={done} />}
+      {loading && <Loader onReveal={reveal} onDone={done} />}
       <Header />
       <main>
-        <Hero ready={!loading} />
+        <Hero ready={ready} />
         <BarberSection />
         <TattooSection />
         <LaserSection />
