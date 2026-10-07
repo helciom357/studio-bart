@@ -3,44 +3,33 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { scrollToId } from "./scroll";
 
-// Ponto da porta de entrada na foto da fachada (px da imagem 2048×2558).
-const IMG_W = 2048;
-const IMG_H = 2558;
-const DOOR_X = 1395;
-const DOOR_Y = 1480;
-// object-position vertical quando a foto preenche a tela (celular).
-const POS_Y = 0.42;
-// Zoom máximo na porta. Mais que isso a foto perde nitidez.
-const ZOOM = 3.8;
-
-const clamp = (v: number, lo: number, hi: number) =>
-  lo > hi ? (lo + hi) / 2 : Math.min(hi, Math.max(lo, v));
-
-/**
- * Deslocamento da camada (com transform-origin 0 0) para que, no zoom máximo, a porta
- * fique no centro da tela sem sobrar borda da foto. Funciona nos dois modos:
- * foto preenchendo a tela (celular) ou foto inteira à direita (telas deitadas).
- */
-function doorShift(layer: HTMLElement | null, img: HTMLImageElement | null) {
-  if (!layer || !img) return { x: 0, y: 0 };
-  const W = layer.clientWidth;
-  const H = layer.clientHeight;
-  const ew = img.offsetWidth;
-  const eh = img.offsetHeight;
-  const s = Math.max(ew / IMG_W, eh / IMG_H);
-  const left = img.offsetLeft + (ew - IMG_W * s) / 2;
-  const top = img.offsetTop + (eh - IMG_H * s) * POS_Y;
-  const dx = left + DOOR_X * s;
-  const dy = top + DOOR_Y * s;
-  const tx = clamp(W / 2, W - (left + IMG_W * s - dx) * ZOOM, (dx - left) * ZOOM);
-  const ty = clamp(H / 2, H - (top + IMG_H * s - dy) * ZOOM, (dy - top) * ZOOM);
-  return { x: tx - dx * ZOOM, y: ty - dy * ZOOM };
-}
+// Ponto da porta de entrada na foto da fachada (px da imagem original 1092×1440).
+const IMG_W = 1092;
+const IMG_H = 1440;
+const DOOR_X = 630;
+const DOOR_Y = 860;
+const POS_Y = 0.62; // object-position vertical
 
 export function Hero({ ready }: { ready: boolean }) {
   const section = useRef<HTMLElement>(null);
-  const zoom = useRef<HTMLDivElement>(null);
   const facade = useRef<HTMLImageElement>(null);
+
+  // Mantém o zoom centrado na porta em qualquer proporção de tela.
+  useEffect(() => {
+    const img = facade.current;
+    if (!img) return;
+    const place = () => {
+      const w = img.clientWidth;
+      const h = img.clientHeight;
+      const s = Math.max(w / IMG_W, h / IMG_H);
+      const offX = (w - IMG_W * s) / 2;
+      const offY = (h - IMG_H * s) * POS_Y;
+      img.style.transformOrigin = `${offX + DOOR_X * s}px ${offY + DOOR_Y * s}px`;
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, []);
 
   useEffect(() => {
     const el = section.current;
@@ -48,36 +37,18 @@ export function Hero({ ready }: { ready: boolean }) {
     gsap.registerPlugin(ScrollTrigger);
     const q = gsap.utils.selector(el);
     const ctx = gsap.context(() => {
-      // scrub maior = o zoom "alcança" a rolagem com suavidade, sem trancos.
       const tl = gsap.timeline({
-        defaults: { force3D: true },
-        scrollTrigger: {
-          trigger: el,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1.1,
-          invalidateOnRefresh: true,
-        },
+        scrollTrigger: { trigger: el, start: "top top", end: "bottom bottom", scrub: 0.6 },
       });
       tl.to(q(".h-copy"), { yPercent: -40, opacity: 0, duration: 0.25, ease: "power2.in" }, 0)
         .to(q(".h-cue"), { opacity: 0, duration: 0.1 }, 0)
-        .to(
-          zoom.current,
-          {
-            scale: ZOOM,
-            x: () => doorShift(zoom.current, facade.current).x,
-            y: () => doorShift(zoom.current, facade.current).y,
-            duration: 0.72,
-            ease: "power2.in",
-          },
-          0,
-        )
-        .to(q(".h-tint"), { opacity: 0.85, duration: 0.55, ease: "power1.in" }, 0.15)
+        .to(facade.current, { scale: 6, duration: 0.75, ease: "power3.in" }, 0)
+        .to(q(".h-tint"), { opacity: 0.85, duration: 0.6, ease: "power2.in" }, 0.15)
         .fromTo(
           q(".h-inside"),
-          { opacity: 0, scale: 1.25 },
-          { opacity: 1, scale: 1, duration: 0.32, ease: "power2.out" },
-          0.55,
+          { opacity: 0, scale: 1.35 },
+          { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" },
+          0.62,
         )
         .fromTo(q(".h-welcome"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.15 }, 0.75)
         .to(q(".h-welcome"), { opacity: 0, y: -60, duration: 0.1 }, 0.92)
@@ -91,7 +62,7 @@ export function Hero({ ready }: { ready: boolean }) {
     const q = gsap.utils.selector(section.current);
     gsap.fromTo(
       q(".h-line > span"),
-      { yPercent: 115 },
+      { yPercent: 135 },
       { yPercent: 0, duration: 1.3, stagger: 0.1, ease: "expo.out" },
     );
     gsap.fromTo(
@@ -99,47 +70,21 @@ export function Hero({ ready }: { ready: boolean }) {
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.5, ease: "power3.out" },
     );
-    // O zoom de entrada fica num invólucro separado para não brigar com o zoom da rolagem.
-    gsap.fromTo(
-      q(".h-media"),
-      { scale: 1.12 },
-      { scale: 1, duration: 2.4, ease: "expo.out", force3D: true },
-    );
+    gsap.fromTo(facade.current, { scale: 1.15 }, { scale: 1, duration: 2.2, ease: "expo.out" });
   }, [ready]);
 
   return (
     <section id="inicio" ref={section} className="relative h-[320vh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-carvao">
-        <div className="h-media absolute inset-0 will-change-transform">
-          <div
-            ref={zoom}
-            className="absolute inset-0 will-change-transform"
-            style={{ transformOrigin: "0 0" }}
-          >
-            {/* Fundo: a mesma foto já desfocada (arquivo leve, sem filtro no navegador). */}
-            <img
-              src="/images/fachada-frente-fundo.webp"
-              alt=""
-              aria-hidden
-              className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
-            />
-            <img
-              ref={facade}
-              src="/images/fachada-frente.webp"
-              alt="Fachada do Studio Bartô em Perdizes"
-              width={IMG_W}
-              height={IMG_H}
-              className="h-photo"
-              style={{ objectPosition: `50% ${POS_Y * 100}%` }}
-              fetchPriority="high"
-              decoding="async"
-              draggable={false}
-            />
-          </div>
-        </div>
-        {/* Degradês sem mix-blend: o navegador não precisa recompor a mistura a cada quadro do zoom. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-carvao/85 via-musgo/10 to-carvao/35" />
+        <img
+          ref={facade}
+          src="/images/fachada.webp"
+          alt="Fachada do Studio Bartô em Perdizes"
+          className="absolute inset-0 h-full w-full object-cover will-change-transform"
+          style={{ objectPosition: `50% ${POS_Y * 100}%` }}
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-musgo via-musgo/10 to-carvao/40 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-r from-carvao/80 via-carvao/20 to-transparent" />
         <div className="h-tint absolute inset-0 bg-carvao opacity-0" />
 
@@ -164,13 +109,13 @@ export function Hero({ ready }: { ready: boolean }) {
             <span className="h-px w-10 bg-cobre" /> Studio Bartô — Perdizes, São Paulo
           </p>
           <h1 className="display text-[clamp(3.2rem,9.5vw,9.5rem)] text-creme">
-            <span className="h-line block overflow-hidden pb-[0.08em]">
+            <span className="h-line -mb-[0.2em] -ml-[0.06em] block overflow-hidden pb-[0.28em] pl-[0.06em]">
               <span className="block">Barbearia,</span>
             </span>
-            <span className="h-line block overflow-hidden pb-[0.08em]">
+            <span className="h-line -mb-[0.2em] -ml-[0.06em] block overflow-hidden pb-[0.28em] pl-[0.06em]">
               <span className="block italic text-areia">tatuagem</span>
             </span>
-            <span className="h-line block overflow-hidden pb-[0.08em]">
+            <span className="h-line -mb-[0.2em] -ml-[0.06em] block overflow-hidden pb-[0.28em] pl-[0.06em]">
               <span className="block">
                 &amp; laser<span className="text-cobre">.</span>
               </span>
